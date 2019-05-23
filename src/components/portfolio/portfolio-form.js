@@ -30,6 +30,10 @@ export default class PortfolioForm extends Component {
         this.handleBannerDrop = this.handleBannerDrop.bind(this);
         this.handleLogoDrop = this.handleLogoDrop.bind(this);
 
+        this.thumbRef = React.createRef();
+        this.bannerRef = React.createRef();
+        this.logoRef = React.createRef();
+
         
     }
 
@@ -80,11 +84,9 @@ export default class PortfolioForm extends Component {
 
         if (this.state.thumb_image){
         formData.append("portfolio_item[thumb_image]", this.state.thumb_image);
-        }        
-        
+        }                
 
         return formData;
-
     }
 
     handleChange(event) {
@@ -93,13 +95,13 @@ export default class PortfolioForm extends Component {
         })
     }   
 
-     handleSubmit(event) {        
+    handleSubmit(event) {        
     axios.post(
         "https://theresalinde.devcamp.space/portfolio/portfolio_items?order_by=created_at&direction=desc", 
         this.buildForm(), {withCredentials: true}
         ).then(response => {
-            this.props.handleSuccessfulFormSubmission(response.data.portfolio_item)
-    
+            this.props.handleSuccessfulFormSubmission(response.data.portfolio_item);
+          
         this.setState({            
                 name: "",
                 description: "",
@@ -111,22 +113,24 @@ export default class PortfolioForm extends Component {
                 logo: ""    
             });    
 
-        [this.thumbref, this.bannerRef, this.logoRef].forEach(ref => {
+        [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
             ref.current.dropzone.removeAllFiles();
         });
+     
+
         }).catch(error => {
             console.log("portfolio form handleSubmit error", error);
-        })
+        });
 
         
         event.preventDefault();
     }
+    
     render() {
-        return (
-            <div>
-                <h1>PortfolioForm</h1>  
-                <form onSubmit={this.handleSubmit}>
-                    <div>
+        return (            
+                
+                <form onSubmit={this.handleSubmit} className="portfolio-form-wrapper">
+                    <div className="two-column">
                         <input
                         type="text"
                         name="name"
@@ -144,7 +148,7 @@ export default class PortfolioForm extends Component {
                         />
                     </div>
 
-                    <div>
+                    <div className="two-column">
                         <input
                         type="text"
                         name="position"
@@ -157,13 +161,14 @@ export default class PortfolioForm extends Component {
                         name="category"
                         value={this.state.category}
                         onChange={this.handleChange}
+                        className="select-element"
                         >
                             <option value="eCommerce">eCommerce</option>
                             <option value="Scheduling">Scheduling</option>
                             <option value="Enterprise">Enterprise</option>                            
                         </select>
                     </div>
-                    <div>
+                    <div className="one-column" >
                         <textarea
                         type="text"
                         name="description"
@@ -179,24 +184,34 @@ export default class PortfolioForm extends Component {
                             config={this.componentConfig()}
                             djsConfig={this.djsConfig()}
                             eventHandlers = {this.handleThumbDrop()}
-                        />
-                        <DropzoneComponent                            
+                        >
+                            <div className="dz-message">Thumbnail</div>
+                        </DropzoneComponent>
+
+                        <DropzoneComponent  
+                            ref={this.bannerRef}                         
                             config={this.componentConfig()}
                             djsConfig={this.djsConfig()}
                             eventHandlers={this.handleBannerDrop()}
-                        />
-                        <DropzoneComponent        
+                        >
+                        <div className="dz-message">Banner</div>
+                        </DropzoneComponent>
+
+                        <DropzoneComponent 
+                            ref={this.logoRef}       
                             config={this.componentConfig()}
                             djsConfig={this.djsConfig()}
                             eventHandlers = {this.handleLogoDrop()}
-                        />
+                        >
+                        <div className="dz-message">Logo</div>
+                        </DropzoneComponent>
                     </div>
 
                     <div>
-                    <button type="submit">Save</button>
+                    <button className="btn" type="submit">Save</button>
                     </div>
                 </form>
-            </div>
+            
         )
     }
 }
