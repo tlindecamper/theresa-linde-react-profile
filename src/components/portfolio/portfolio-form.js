@@ -32,7 +32,7 @@ export default class PortfolioForm extends Component {
         this.handleThumbDrop = this.handleThumbDrop.bind(this);
         this.handleBannerDrop = this.handleBannerDrop.bind(this);
         this.handleLogoDrop = this.handleLogoDrop.bind(this);
-        this .deleteImage = this.deleteImage.bind(this);
+        this.deleteImage = this.deleteImage.bind(this);
 
         this.thumbRef = React.createRef();
         this.bannerRef = React.createRef();
@@ -40,8 +40,19 @@ export default class PortfolioForm extends Component {
     }
 
     deleteImage(imageType) {
-        console.log("deleteImage", imageType)
-    }
+        axios
+        .delete(
+            `https://api.devcamp.space/portfolio/delete-portfolio-image/${this.state.id}?image_type=${imageType}`, 
+        {withCredentials: true}
+        ).then(response => {
+            this.setState({
+                [`${imageType}_url`]: ""
+            });
+        }).catch(error => {
+            console.log("deletedImage error", error)
+        });
+        }
+
     componentDidUpdate() {
         if (Object.keys(this.props.portfolioToEdit).length > 0) {
             const {
@@ -70,15 +81,14 @@ export default class PortfolioForm extends Component {
                 apiAction: 'patch',
                 thumb_image_url: thumb_image_url || "" ,
                 banner_image_url: banner_image_url || "",     
-                logo: logo_url || "" 
-            })
+                logo_url: logo_url || "" 
+            });
         }
     }
 
     handleThumbDrop() {
         return {
             addedfile: file => this.setState({ thumb_image: file })
-
         };
     }
     handleBannerDrop() {
@@ -95,11 +105,11 @@ export default class PortfolioForm extends Component {
 
 
     componentConfig() {
-    return {
-            iconFiletypes: [".jpeg", ".png"],
-            showFiletypeIcon: true,
-            postUrl: "https://httpbin.org/post"
-        }
+        return {
+                iconFiletypes: [".jpeg", ".png"],
+                showFiletypeIcon: true,
+                postUrl: "https://httpbin.org/post"
+            }
     }
 
     djsConfig() {
@@ -120,9 +130,17 @@ export default class PortfolioForm extends Component {
 
         if (this.state.thumb_image){
         formData.append("portfolio_item[thumb_image]", this.state.thumb_image);
-        }                
+        }  
+        
+        if (this.state.banner_image) {
+            formData.append("portfolio_item[banner_image]", this.state.banner_image);
+        }  
 
-        return formData;
+        if (this.state.logo) {
+            formData.append("portfolio_item[logo]", this.state.logo);
+        }  
+        
+          return formData;
     }
 
     handleChange(event) {
@@ -143,7 +161,8 @@ export default class PortfolioForm extends Component {
                 this.props.handleEditFormSubmission();
             }else {                            
             this.props.handleNewFormSubmission(response.data.portfolio_item);
-            }    
+            }   
+
         this.setState({            
                 name: "",
                 description: "",
@@ -160,7 +179,7 @@ export default class PortfolioForm extends Component {
 
         [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
             ref.current.dropzone.removeAllFiles();
-        });
+        }) ;
      
 
         }).catch(error => {
@@ -267,14 +286,14 @@ export default class PortfolioForm extends Component {
                         </DropzoneComponent>
                         )}
                         
-                            {this.state.logo_url && this.state.editMode ? (
+                        {this.state.logo_url && this.state.editMode ? (
                             <div className="portfolio-manager-image-wrapper">
                                 <img src={this.state.logo_url} />  
 
-                                <div className="image-removal-link">
-                                    <a onClick={() => this.deleteImage("logo")}>
-                                    Remove file
-                                    </a>
+                            <div className="image-removal-link">
+                                <a onClick={() => this.deleteImage("logo")}>
+                                Remove file
+                                </a>
                                 </div>
                             </div>  
                           )  :( 
