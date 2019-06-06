@@ -13,6 +13,7 @@ import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
 import Blog from "./pages/blog";
+import BlogDetail from "./pages/blog-details";
 import PortfolioDetail from "./portfolio/portfolio-details";
 import PortfolioManager from "./pages/portfolio-manager";
 import Auth from "./pages/auth";
@@ -119,6 +120,7 @@ export default class App extends Component {
             <Route path="/contact" component={Contact}/>
             {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedPages()) : null}
             <Route path="/blog" component={Blog} />
+            <Route path="/b/:slug" component={BlogDetail} />
             <Route  exact path="/portfolio/:slug" component={PortfolioDetail} />
             <Route component={NoMatch}/>
           </Switch>
