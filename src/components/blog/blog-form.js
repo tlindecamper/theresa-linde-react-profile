@@ -15,10 +15,9 @@ export default class BlogForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRichTextEditorChange = this.handleRichTextEditorChange.bind(this);
-
     }  
 
-        handleRichTextEditorChange(content) {
+    handleRichTextEditorChange(content) {
         this.setState({ content });
     }
 
@@ -29,27 +28,29 @@ export default class BlogForm extends Component {
         formData.append("portfolio_blog[blog_status]", this.state.blog_status);
         formData.append("portfolio_blog[blog_scontent]", this.state.content);
 
-
         return formData;
     }
 
-    handleSubmit() {
-        axios.post("https://theresalinde.devcamp.space/portfolio/portfolio_blogs",
+    handleSubmit(event) {
+        axios
+        .post("https://theresalinde.devcamp.space/portfolio/portfolio_blogs",
          this.buildForm(),
          {withCredentials: true}
          )
          .then(response => {
-            this.props.handleSuccessfullFormSubmission(response.data.portfolio_blog);
-            
             this.setState({
                 title: "",
-                blog_status: ""   
+                blog_status: "",
+                content: ""   
             })
+            this.props.handleSuccessfullFormSubmission(
+                response.data.portfolio_blog);
+            
+            
          }).catch(error => {
              console.log("handleSubmit for blog error", error);
          })
-
-        this.props.handleSuccessfullFormSubmission(this.state);
+        
         event.preventDefault();
     }
    
