@@ -24,15 +24,16 @@ export default class RichTextEditor extends Component {
     }
 
     render() {
-        return (
-            <div>
-              <Editor
-              editorState={this.state.editorState} 
-              wrapperClassName="demo-wrapper"
-              editorClassName="demo-editor"
-              onEditorStateChange={this.onEditorStateChange}
-              />  
-            </div>
+        
+    return (
+        <div>
+          <Editor
+            editorState={this.state.editorState}
+            wrapperClassName="demo-wrapper"
+            editorClassname="demo-editor"
+            onEditorStateChange={this.onEditorStateChange}
+          />
+        </div>
         )
     }
 }

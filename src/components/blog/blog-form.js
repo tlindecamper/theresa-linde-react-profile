@@ -26,7 +26,7 @@ export default class BlogForm extends Component {
 
         formData.append("portfolio_blog[title]", this.state.title);
         formData.append("portfolio_blog[blog_status]", this.state.blog_status);
-        formData.append("portfolio_blog[blog_scontent]", this.state.content);
+        formData.append("portfolio_blog[content]", this.state.content);
 
         return formData;
     }
@@ -44,12 +44,11 @@ export default class BlogForm extends Component {
                 content: ""   
             })
             this.props.handleSuccessfullFormSubmission(
-                response.data.portfolio_blog);
-            
-            
-         }).catch(error => {
-             console.log("handleSubmit for blog error", error);
-         })
+                response.data.portfolio_blog);             
+            })
+            .catch(error => {
+                console.log("handleSubmit for blog error", error);
+            })
         
         event.preventDefault();
     }
@@ -78,6 +77,7 @@ export default class BlogForm extends Component {
                     placeholder= "Blog status"
                     value={this.state.blog_status}
                 />  
+                 
             </div>
             <div className="one-column">
                 <RichTextEditor 
