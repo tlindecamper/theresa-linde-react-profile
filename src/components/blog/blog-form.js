@@ -129,12 +129,23 @@ export default class BlogForm extends Component {
             </div>
             <div className="one-column">
                 <RichTextEditor 
-                handleRichTextEditorChange={this.handleRichTextEditorChange}/>
+                handleRichTextEditorChange={this.handleRichTextEditorChange}
                 editMode={this.props.editMode}
-                contentToEdit={this.props.editMode && this.props.blog.content ? this.props.blog.content 
+                contentToEdit={this.props.editMode && this.props.blog.content ? 
+                this.props.blog.content 
                     : null }
+                />
             </div>
+
             <div className="image-uploaders">
+                {this.props.editMode && this.props.blog.featured_image_url ? (                
+                    <div className="portfolio-manager-image-wrapper">
+                        <img src={this.props.blog.featured_image_url} />  
+                        <div className="image-removal-link">
+                            <a> Remove file </a>
+                        </div>
+                    </div>  
+                ) : (
                 <DropzoneComponent
                     ref={this.featuredImageRef}
                     config={this.componentConfig()}
@@ -143,6 +154,7 @@ export default class BlogForm extends Component {
             >  
                 <div className="dz-message">Featured Image</div>
                 </DropzoneComponent>
+            )}
              
             </div>
                 <button className="btn">Save</button>            
