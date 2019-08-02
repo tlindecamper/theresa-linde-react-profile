@@ -80,10 +80,8 @@ export default class Login extends Component{
                value={this.state.password}
                onChange={this.handleChange}
             /> 
-            </div>
-            
-                <button  className='btn' type="submit">Login</button>
-              
+            </div>            
+                <button  className='btn' type="submit">Login</button>              
             </form>
             </div>
         );

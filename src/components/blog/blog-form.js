@@ -99,37 +99,40 @@ export default class BlogForm extends Component {
 
     handleSubmit(event) {
         axios({
-            method: this.state.apiAction,
-            url:this.state.apiUrl,
-            data:this.buildForm(),
-            withCredentials: true
-        })       
-         
-         .then(response => {
+          method: this.state.apiAction,
+          url: this.state.apiUrl,
+          data: this.buildForm(),
+          withCredentials: true
+        })
+          .then(response => {
             if (this.state.featured_image) {
-                this.featuredImageRef.current.dropzone.removeAllFiles()
+              this.featuredImageRef.current.dropzone.removeAllFiles();
             }
+    
             this.setState({
-                title: "",
-                blog_status: "",
-                content: "",
-                featured_image: ""   
-            })
-            if (this.props.editMode){
-                this.props.handleUpdateFormFormSubmission(response.data.portfolio_blog);
-            }else {
-            this.props.handleSuccessfullFormSubmission(
-                response.data.portfolio_blog); 
-            }            
-            })
-            .catch(error => {
-                console.log("handleSubmit for blog error", error);
-            })
-        
+              title: "",
+              blog_status: "",
+              content: "",
+              featured_image: ""
+            });
+    
+            if (this.props.editMode) {
+              // Update blog detail
+              this.props.handleUpdateFormSubmission(response.data.portfolio_blog);
+            } else {
+              this.props.handleSuccessfullFormSubmission(
+                response.data.portfolio_blog
+              );
+            }
+          })
+          .catch(error => {
+            console.log("handleSubmit for blog error", error);
+          });
+    
         event.preventDefault();
-    }
+      }
    
-    handleChange() {
+    handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -145,7 +148,7 @@ export default class BlogForm extends Component {
                     placeholder= "Blog Title"
                     value={this.state.title}
                 />
-
+                    
                 <input
                 type="text"
                     onChange={this.handleChange}
