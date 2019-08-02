@@ -35,7 +35,9 @@ export default class BlogDetail extends Component {
 
     handleEditClick() {
         console.log("handle edit clicked")
-        this.setState({ editMode: true})
+            if (this.props.loggedInStatus === "LOGGED_IN"){
+            this.setState({ editMode: true})
+        }
     }
     getBlogItem() {
         axios.get(
@@ -64,7 +66,7 @@ export default class BlogDetail extends Component {
         } = this.state.blogItem;
 
         const contentManager = () => {
-            if (this.state.editMode) {
+            if (this.state.editMode ) {
                 return <BlogForm  
                  handleFeaturedImageDelete={this.handleFeaturedImageDelete}
                  handleUpdateFormSubmission={this.handleUpdateFormSubmission}
@@ -82,7 +84,7 @@ export default class BlogDetail extends Component {
                     <div className="content">{ReactHtmlParser(content)}</div>
                 </div>
                 )
-            }
+                }
         }
         
         return (
