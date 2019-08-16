@@ -107,7 +107,7 @@ export default class BlogForm extends Component {
           .then(response => {
             if (this.state.featured_image) {
               this.featuredImageRef.current.dropzone.removeAllFiles();
-            }
+            } 
     
             this.setState({
               title: "",
@@ -132,11 +132,11 @@ export default class BlogForm extends Component {
         event.preventDefault();
       }
    
-    handleChange(event) {
+      handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
+          [event.target.name]: event.target.value
+        });
+      }
     render() {
         return(
             <form onSubmit={this.handleSubmit} className="blog-form-wrapper">

@@ -44,5 +44,5 @@ export default class BlogModal extends Component {
          />
         </ReactModal>       
         )
-    }s
+    }        
 }
