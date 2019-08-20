@@ -14,7 +14,11 @@ export default function() {
                  
             
             <div className='right-column'>
-                Here is where i put in my info.....
+            After 25 years in the Retail/Retail Management Industry, I decided to change 
+            careers to a more marketable and challenging field.  I am an avid learner with 
+            the ability to learn languages and methodologies at an impressive pace.
+             This, combined with my work ethic and love for coding, make me an excellent developer.
+
             </div>
           
         

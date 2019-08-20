@@ -24,7 +24,7 @@ export default function() {
                         </div>
 
                         <div className='text'>
-                        555-555-555
+                        801-368-4081
                         </div>
                     </div>
 
